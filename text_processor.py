@@ -45,7 +45,7 @@ class Text_Processor:
 
 
     def remove_stopwords(self, words):
-        return  self.enc_json([w for w in words if w not in self.stopwords])
+        return  self.enc_json([w for w in words if w not in self.stopwords and w.isalpha()])
 
 
 
@@ -125,6 +125,6 @@ class Text_Processor:
     #     return output
 
 
-proc=Text_Processor().process('{"action":"process", "data":"What doing this morning was something outing of going to  ripping"}')
+proc=Text_Processor().process('{"action":"process", "data":"What doing this morning was something outing of going to  ripping 123    "}')
 print proc
 
