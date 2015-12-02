@@ -45,19 +45,17 @@ class Text_Processor:
 
 
     def remove_stopwords(self, words):
-        return [w for w in words if w not in self.stopwords]
+        return  self.enc_json([w for w in words if w not in self.stopwords])
 
 
 
     def stemming(self, words):
         ps=LancasterStemmer()
-        print [ps.stem(w) for w in words]
         return self.remove_stopwords([ps.stem(w) for w in words])
 
 
     def enc_json(self, terms):
-        output=JSONEncoder.encode({'terms':terms})
-        print output
+        output=JSONEncoder().encode({'terms':terms})
         return output
 
 
@@ -126,8 +124,7 @@ class Text_Processor:
     #     output=[word for word in text if word not in STOP_WORDS and len(word)>2]
     #     return output
 
-text="What doing this morning \n was something outing of going to \n ripping".encode()
-print text
+
 proc=Text_Processor().process('{"action":"process", "data":"What doing this morning was something outing of going to  ripping"}')
 print proc
 
