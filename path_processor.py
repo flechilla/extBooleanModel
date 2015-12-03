@@ -5,18 +5,17 @@ from pdfminer.pdfpage import PDFPage
 from cStringIO import StringIO
 
 from os import listdir
-from text_processor import Text_Processor
+from text_processor import TextProcessor
 from json import JSONEncoder, JSONDecoder
 
 
-class Process_Path():
+class PathProcessor:
 
     def __init__(self, path):
         self.path=path
 
-
-
-
+    #foreach file in the path analize the extension and call
+    #a method to extract the text depending on it..
     def process_files(self):
         files=[f for f in listdir(self.path)]
         files_dic={}
@@ -29,8 +28,9 @@ class Process_Path():
                 files_dic[file]=self.process_pdf(self.path+file)
             elif file_ext=='html':
                 files_dic[file]=self.process_html(self.path+file)
-        tp=Text_Processor()
+        tp=TextProcessor()
         for file, text in files_dic.items():
+            #call the text_processor module
             text_proc_result=tp.process(JSONEncoder().encode({'action':'process', 'data':text}))
             text_proc_result=JSONDecoder().decode(text_proc_result)['terms']
             files_dic[file]=text_proc_result
@@ -45,7 +45,7 @@ class Process_Path():
         return text
 
 
-
+    #process the files of pdf extension.
     def process_pdf(self,file_path):
         rsrcmgr = PDFResourceManager()
         retstr = StringIO()
@@ -69,6 +69,6 @@ class Process_Path():
     def process_html(self, file_path):
         pass
 
-pp=Process_Path('data\\docs\\')
-files=pp.process_files()
-print files
+# pp=Path_Processor('data\\docs\\')
+# files=pp.process_files()
+# print files
