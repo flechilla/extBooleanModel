@@ -1,6 +1,3 @@
-import re
-from os import listdir, stat
-
 from nltk.stem.lancaster import LancasterStemmer
 from json import JSONDecoder, JSONEncoder
 
