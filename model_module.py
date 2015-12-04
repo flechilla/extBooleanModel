@@ -3,10 +3,14 @@ from text_processor import TextProcessor
 from os import listdir
 from path_processor import PathProcessor
 import pdb
+from index_module import IndexModule
 
 class ExtendedBoolean:
     def __init__(self, json):
+        self.vocaulary=set([])
         json = JSONDecoder().decode(json)
+        self.index_mod=IndexModule()
+        
         if json['action'] == "build":
             self.build(json['path'])
         else:
@@ -17,12 +21,13 @@ class ExtendedBoolean:
         self.terms = pp.process_files()
         self.calculate_tf()
         self.calculate_itf()
+        self.index_mod.process_json(JSONEncoder().encode({'action': 'build', 'data':self.index}))
+
 
     def process_query(self, query, count):
         pass
 
     def calculate_tf(self):
-        self.vocaulary=set([])
         for file, terms in self.terms.items():
             words_counter_dic = {}
             max_frec=0
@@ -48,15 +53,12 @@ class ExtendedBoolean:
                 if w in doc_terms.keys():
                     files_with_words.append(doc_name)
             itf=len(self.terms)/float(len(files_with_words))
-            self.index.append({'key':w,'value':{'itf':itf, 'documents':[{'tf':self.terms[doc][w], 'document':doc} for doc in files_with_words]}})
+            self.index.append({'key':w, 'value':{'itf':itf, 'documents':[{'tf':self.terms[doc][w], 'document':doc} for doc in files_with_words]}})
 
 
 
 eb = ExtendedBoolean('{"action":"build", "path":"data\\\\docs\\\\"}')
-for i in eb.index:
-    print i
-print len(eb.terms)
-print eb.index
+print eb.index_mod.process_json('{"action":"get", "key":"rol"}')
 
 
 
