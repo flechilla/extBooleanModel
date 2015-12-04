@@ -1,12 +1,13 @@
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+from cStringIO import StringIO
+from json import JSONEncoder, JSONDecoder
+from os import listdir
+
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.pdfpage import PDFPage
-from cStringIO import StringIO
 
-from os import listdir
 from text_processor import TextProcessor
-from json import JSONEncoder, JSONDecoder
 
 
 class PathProcessor:
@@ -69,6 +70,3 @@ class PathProcessor:
     def process_html(self, file_path):
         pass
 
-# pp=Path_Processor('data\\docs\\')
-# files=pp.process_files()
-# print files

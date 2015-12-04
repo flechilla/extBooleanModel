@@ -11,8 +11,12 @@ class IndexModule:
         # check for the action
         if json['action'] == 'build':
             self.build_index(json)
-        if json['action'] == 'get':
+        elif json['action'] == 'get':
             return self.get_term(json['key'])
+        elif json['action'] == 'add' or json['action'] == 'update':
+            self.add_term(json['key'], json['value'])
+        elif json['action'] == 'delete':
+            self.delete(json['key'])
 
     def build_index(self, dic):
         self.index = {}
@@ -22,3 +26,9 @@ class IndexModule:
 
     def get_term(self, term):
         return JSONEncoder().encode(self.index[term])
+
+    def add_term(self, key, value):
+        self.index[key] = value
+
+    def delete(self, key):
+        self.index.pop(key)
