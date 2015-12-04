@@ -1,0 +1,7 @@
+.idea
+data
+TODO
+*.pyc
+*.txt
+*.ipynb
+test_stuffs.py
